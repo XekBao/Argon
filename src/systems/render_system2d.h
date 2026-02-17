@@ -14,13 +14,13 @@ namespace argon {
 		void submitVisible(const Scene& scene, Renderer& renderer,
 						   const Camera2D& cam, float aspect) const;
 
-		void buildPackets(const Scene& scene, const Camera2D& cam,
+		void buildPackets(const Scene& scene, Renderer& renderer, const Camera2D& cam,
 						  float aspect, RenderFrame2D& out) const;
 
 	private:
 		template<class Fn>
-		void forEachVisible(const Scene& scene, const Camera2D& cam,
-			float aspect, Fn&& fn) const;
+		void forEachVisible(const Scene& scene, const Renderer& renderer,
+			const Camera2D& cam, float aspect, Fn&& fn) const;
 	};
 
 }

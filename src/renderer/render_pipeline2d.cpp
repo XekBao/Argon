@@ -23,7 +23,7 @@ namespace argon {
 		
 		frame.clearPackets();
 		if (frame.mode == FrameMode::Record) {
-			m_renderSys->buildPackets(*frame.scene, *frame.cam, frame.aspect, frame);
+			m_renderSys->buildPackets(*frame.scene, renderer, *frame.cam, frame.aspect, frame);
 		}
 
 		for (auto& pass : m_passes) {

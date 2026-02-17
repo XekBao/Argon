@@ -18,6 +18,7 @@ add_library(argon STATIC
     src/renderer/mesh.cpp
     src/renderer/renderer.cpp
     src/renderer/texture2d.cpp
+    src/renderer/texture_atlas.cpp
 
     # platform
     src/platform/window.cpp

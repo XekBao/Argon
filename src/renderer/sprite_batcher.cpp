@@ -22,7 +22,8 @@ namespace argon {
 			   (m_instancedSpriteShader && material.shader == m_instancedSpriteShader);
 	}
 
-	void SpriteBatcher::submit(std::uint64_t key, const Material2D& material, const Mat4& model) {
+	void SpriteBatcher::submit(std::uint64_t key, const Material2D& material, const Mat4& model,
+							   const Vec4 & tint, const Vec4& uvRect) {
 		// start
 		if (!m_hasBatch) {
 			m_hasBatch = true;
@@ -37,10 +38,15 @@ namespace argon {
 		std::memcpy(inst.m2, &M.m[8], 4 * sizeof(float));
 		std::memcpy(inst.m3, &M.m[12], 4 * sizeof(float));
 
-		inst.color[0] = material.color.r;
-		inst.color[1] = material.color.g;
-		inst.color[2] = material.color.b;
-		inst.color[3] = material.color.a;
+		inst.color[0] = material.color.r * tint.r;
+		inst.color[1] = material.color.g * tint.g;
+		inst.color[2] = material.color.b * tint.b;
+		inst.color[3] = material.color.a * tint.a;
+
+		inst.uvRect[0] = uvRect.r;
+		inst.uvRect[1] = uvRect.g;
+		inst.uvRect[2] = uvRect.b;
+		inst.uvRect[3] = uvRect.a;
 
 		m_instances.push_back(inst);
 	}
@@ -99,6 +105,10 @@ namespace argon {
 		glEnableVertexAttribArray(6);
 		glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, stride, (void*)(16 * sizeof(float)));
 		glVertexAttribDivisor(6, 1);
+
+		glEnableVertexAttribArray(7);
+		glVertexAttribPointer(7, 4, GL_FLOAT, GL_FALSE, stride, (void*)(20 * sizeof(float)));
+		glVertexAttribDivisor(7, 1);
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
