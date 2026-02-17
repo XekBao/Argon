@@ -5,6 +5,7 @@
 #include "renderer/material2d.h"
 #include "renderer/mesh.h"
 #include "renderer/material_handle.h"
+#include "scene/animation2d.h"
 
 
 namespace argon {
@@ -21,6 +22,9 @@ namespace argon {
 
 
 	struct Entity {
+		Animator2D animator;
+		bool animated = false;
+
 		Transform transform{};
 		Renderable2D renderable{};
 		bool controllable = false;

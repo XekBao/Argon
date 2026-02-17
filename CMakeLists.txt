@@ -37,7 +37,7 @@ add_library(argon STATIC
     libraries/imgui/backends/imgui_impl_glfw.cpp
     libraries/imgui/backends/imgui_impl_opengl3.cpp
     # libraries/imgui/imgui_demo.cpp 
- "src/renderer/material2d.h" "src/scene/entity.h" "src/scene/scene.cpp" "src/scene/frame_context.h" "src/systems/movement_system.cpp" "src/systems/camera_system.cpp" "src/systems/render_system2d.h" "src/systems/render_system2d.cpp" "src/renderer/material_handle.h" "src/renderer/material_library.h" "src/renderer/material_library.cpp" "src/renderer/render_packet2d.h" "src/renderer/render_frame2d.h" "src/renderer/render_pass2d.h" "src/renderer/render_pass2d.cpp" "src/renderer/render_pipeline2d.h" "src/renderer/render_pipeline2d.cpp" "src/renderer/imgui_pass2d.h" "src/renderer/imgui_pass2d.cpp" "src/renderer/render_state_cache.h" "src/renderer/sprite_batcher.h" "src/renderer/sprite_batcher.cpp")
+ "src/renderer/material2d.h" "src/scene/entity.h" "src/scene/scene.cpp" "src/scene/frame_context.h" "src/systems/movement_system.cpp" "src/systems/camera_system.cpp" "src/systems/render_system2d.h" "src/systems/render_system2d.cpp" "src/renderer/material_handle.h" "src/renderer/material_library.h" "src/renderer/material_library.cpp" "src/renderer/render_packet2d.h" "src/renderer/render_frame2d.h" "src/renderer/render_pass2d.h" "src/renderer/render_pass2d.cpp" "src/renderer/render_pipeline2d.h" "src/renderer/render_pipeline2d.cpp" "src/renderer/imgui_pass2d.h" "src/renderer/imgui_pass2d.cpp" "src/renderer/render_state_cache.h" "src/renderer/sprite_batcher.h" "src/renderer/sprite_batcher.cpp" "src/scene/animation2d.h")
 
 # Expose include dirs to anything that links argon
 target_include_directories(argon PUBLIC
@@ -61,7 +61,7 @@ target_link_libraries(argon PUBLIC glfw)
 add_executable(sandbox
     sandbox/main.cpp
     "sandbox/sandbox.cpp"
- "src/renderer/material2d.h" "src/scene/entity.h" "src/scene/scene.cpp" "src/scene/frame_context.h" "src/systems/movement_system.cpp" "src/systems/camera_system.cpp" "src/systems/render_system2d.h" "src/systems/render_system2d.cpp" "src/renderer/material_handle.h" "src/renderer/material_library.h" "src/renderer/material_library.cpp" "src/renderer/render_packet2d.h" "src/renderer/render_frame2d.h" "src/renderer/render_pass2d.h" "src/renderer/render_pass2d.cpp" "src/renderer/render_pipeline2d.h" "src/renderer/render_pipeline2d.cpp" "src/renderer/imgui_pass2d.h" "src/renderer/imgui_pass2d.cpp" "src/renderer/render_state_cache.h" "src/renderer/sprite_batcher.h" "src/renderer/sprite_batcher.cpp")
+ "src/renderer/material2d.h" "src/scene/entity.h" "src/scene/scene.cpp" "src/scene/frame_context.h" "src/systems/movement_system.cpp" "src/systems/camera_system.cpp" "src/systems/render_system2d.h" "src/systems/render_system2d.cpp" "src/renderer/material_handle.h" "src/renderer/material_library.h" "src/renderer/material_library.cpp" "src/renderer/render_packet2d.h" "src/renderer/render_frame2d.h" "src/renderer/render_pass2d.h" "src/renderer/render_pass2d.cpp" "src/renderer/render_pipeline2d.h" "src/renderer/render_pipeline2d.cpp" "src/renderer/imgui_pass2d.h" "src/renderer/imgui_pass2d.cpp" "src/renderer/render_state_cache.h" "src/renderer/sprite_batcher.h" "src/renderer/sprite_batcher.cpp" "src/scene/animation2d.h")
 
 target_link_libraries(sandbox PRIVATE argon)
 
