@@ -8,6 +8,7 @@
 #include "renderer/render_packet2d.h"
 #include "renderer/render_state_cache.h"
 #include "renderer/sprite_batcher.h"
+#include "renderer/texture_atlas.h"
 
 namespace argon {
 	class MaterialLibrary;
@@ -34,6 +35,7 @@ namespace argon {
 		};
 
 		const Stats& stats() const { return m_stats; }
+		const TextureAtlas* atlas() const { return m_atlas; }
 
 		void clear(float r, float g, float b, float a) const;
 
@@ -41,6 +43,7 @@ namespace argon {
 		void endPass();
 		void submit(const RenderPacket2D& pkt);
 		
+		void setAtlas(const TextureAtlas* atlas) { m_atlas = atlas; }
 		void setSpriteQuad(const Mesh* quad) { m_spriteBatcher.setSpriteQuad(quad); }
 		void setInstancedSpriteShader(const Shader* s) { m_spriteBatcher.setInstancedSpriteShader(s); }
 
@@ -51,6 +54,8 @@ namespace argon {
 			MaterialHandle material = {};
 			std::uint32_t layer = 0;
 			std::uint64_t key = 0;
+			Vec4 tint{ 1.0f,1.0f,1.0f,1.0f };
+			Vec4 uvRect{ 0.0f,0.0f,1.0f,1.0f }; // (u0,v0,u1,v1)
 		};
 
 		struct SortKey {
@@ -91,6 +96,7 @@ namespace argon {
 		Material2D m_vertexBatchMaterial{};
 		SpriteBatcher m_spriteBatcher;
 
+		const TextureAtlas* m_atlas = nullptr;
 		const MaterialLibrary* m_matlib = nullptr;
 	};
 }

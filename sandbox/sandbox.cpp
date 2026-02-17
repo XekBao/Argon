@@ -15,10 +15,11 @@ namespace argon {
 	layout (location = 1) in vec2 aUV;
 	
 	uniform mat4 uMVP;
+	uniform vec4 uUVRect; // (u0,v0,u1,v1)
 	out vec2 vUV;
 	
 	void main() {
-	    vUV = aUV;
+	    vUV = mix(uUVRect.xy, uUVRect.zw, aUV);
 	    gl_Position = uMVP * vec4(aPos, 0.0, 1.0);
 	}
 	)";
@@ -51,6 +52,7 @@ namespace argon {
 	layout (location = 5) in vec4 iM3;
 
 	layout (location = 6) in vec4 iColor;
+	layout (location = 7) in vec4 iUVRect; // (u0,v0,u1,v1)
 
 	uniform mat4 uPV;
 
@@ -58,7 +60,7 @@ namespace argon {
 	out vec4 vColor;
 
 	void main() {
-		vUV = aUV;
+		vUV = mix(iUVRect.xy, iUVRect.zw, aUV);
 		vColor = iColor;
 		mat4 model = mat4(iM0, iM1, iM2, iM3);
 		gl_Position = uPV * model * vec4(aPos, 0.0, 1.0);
@@ -172,6 +174,7 @@ namespace argon {
 
 		m_camCtl = std::make_unique<CameraController2D>(*m_window, m_camera);
 		m_testTex = std::make_unique<Texture2D>("assets/texture0.jpg");
+		m_atlasTex = std::make_unique<Texture2D>("assets/test_atlas.png");
 
 		m_scene.entities.clear();
 		m_scene.entities.reserve(numQuads);
@@ -183,21 +186,38 @@ namespace argon {
 		matTex.color = { 1.0f,1.0f,1.0f,1.0f };
 		m_matTex = m_materials.add(matTex);
 
+		Material2D matAtlas;
+		matAtlas.shader = m_spriteShader.get();
+		matAtlas.texture = m_atlasTex.get();
+		matAtlas.useTexture = true;
+		matAtlas.color = { 1,1,1,1 };
+		MaterialHandle m_matAtlas = m_materials.add(matAtlas);
+
+		m_atlas.setTextureSize(1024, 1024);
+		bool ok = m_atlas.loadFromFile("assets/test.atlas");
+		std::cout << "atlas load ok=" << ok << "\n";
+		m_renderer.setAtlas(&m_atlas);
+
 		const float spacing = 0.05f;
 		const float startX = -(gridW - 1) * spacing * 0.5f;
 		const float startY = -(gridH - 1) * spacing * 0.5f;
-		
+		static const char* sprites[] = { "hero0","hero1","coin0","coin1" };
+		const int spriteCount = 4;
+
 		for (int y = 0; y < gridH; ++y) {
 			for (int x = 0; x < gridW; ++x) {
 				Entity e;
 				e.renderable.mesh = m_quad.get();
 				int idx = (x + y * gridW) % numTextures;
-				e.renderable.material = m_matHandles[idx];
+				e.renderable.material = m_matAtlas;
+				e.renderable.sprite = sprites[(x + y) % spriteCount];
+
 				e.transform.x = startX + x * spacing;
 				e.transform.y = startY + y * spacing;
 				e.transform.sx = 0.05f;   
 				e.transform.sy = 0.05f;
 				e.renderable.layer = 0;
+				e.renderable.tint = { (float)(x % 10) / 9.0f, (float)(y % 10) / 9.0f, 1.0f, 1.0f };
 				m_scene.entities.push_back(e);
 			}
 		}

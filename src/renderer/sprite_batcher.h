@@ -26,7 +26,8 @@ namespace argon {
 
 		void begin(const Mat4& PV, StatsSink sink);
 		bool canInstance(const Mesh* mesh, const Material2D& material) const;
-		void submit(std::uint64_t key, const Material2D& material, const Mat4& model);
+		void submit(std::uint64_t key, const Material2D& material, const Mat4& model,
+					const Vec4& tint, const Vec4& uvRect);
 
 		void flush(RenderStateCache& st);
 
@@ -37,6 +38,7 @@ namespace argon {
 			float m2[4];
 			float m3[4];
 			float color[4];
+			float uvRect[4];
 		};
 
 		void initInstancingGL();

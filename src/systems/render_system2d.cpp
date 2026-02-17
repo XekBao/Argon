@@ -21,6 +21,7 @@ namespace argon {
 
 	template<class Fn>
 	void RenderSystem2D::forEachVisible(const Scene& scene,
+										const Renderer& renderer,
 										const Camera2D& cam,
 										float aspect,
 										Fn&& fn) const
@@ -56,12 +57,23 @@ namespace argon {
 			pkt.model = e.transform.matrix();
 			pkt.material = e.renderable.material;
 			pkt.layer = e.renderable.layer;
+			pkt.tint = e.renderable.tint;
+
+			if (!e.renderable.sprite.empty()) {
+				const TextureAtlas* atlas = renderer.atlas();
+				if (atlas) {
+					pkt.uvRect = atlas->getUVRect(e.renderable.sprite);
+				}
+			} else {
+				pkt.uvRect = e.renderable.uvRect;
+			}
 
 			fn(pkt);
 		}
 	}
 
 	void RenderSystem2D::buildPackets(const Scene& scene,
+									  Renderer& renderer,
 									  const Camera2D& cam,
 									  float aspect,
 									  RenderFrame2D& out) const
@@ -69,7 +81,7 @@ namespace argon {
 		out.clearPackets();
 		out.packets.reserve(scene.entities.size() + 16);
 
-		forEachVisible(scene, cam, aspect, [&](const RenderPacket2D& pkt) {
+		forEachVisible(scene, renderer, cam, aspect, [&](const RenderPacket2D& pkt) {
 			out.packets.push_back(pkt);
 		});
 	}
@@ -79,7 +91,7 @@ namespace argon {
 									   const Camera2D& cam,
 									   float aspect) const
 	{
-		forEachVisible(scene, cam, aspect, [&](const RenderPacket2D& pkt) {
+		forEachVisible(scene, renderer, cam, aspect, [&](const RenderPacket2D& pkt) {
 			renderer.submit(pkt);
 		});
 	}

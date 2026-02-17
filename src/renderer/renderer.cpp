@@ -83,6 +83,8 @@ namespace argon {
 		cmd.model = pkt.model;
 		cmd.material = pkt.material;
 		cmd.layer = (std::uint32_t)pkt.layer;
+		cmd.tint = pkt.tint;
+		cmd.uvRect = pkt.uvRect;
 
 		cmd.key = makeSortKey(*cmd.mesh, *mat);
 		m_queue.push_back(cmd);
@@ -148,7 +150,7 @@ namespace argon {
 				currentKey = cmd.key;
 			}
 
-			m_spriteBatcher.submit(cmd.key, *material, cmd.model);
+			m_spriteBatcher.submit(cmd.key, *material, cmd.model, cmd.tint, cmd.uvRect);
 		}
 		// flush remaining instanced sprites
 		m_spriteBatcher.flush(st);
@@ -179,10 +181,11 @@ namespace argon {
 		//MVP
 		Mat4 MVP = mul(m_PV, cmd.model);
 		shader.setMat4("uMVP", MVP.m);
-		shader.setVec4("uColor", material->color.r,
-								 material->color.g,
-								 material->color.b,
-								 material->color.a);
+		shader.setVec4("uColor", material->color.r * cmd.tint.r,
++							 material->color.g * cmd.tint.g,
++							 material->color.b * cmd.tint.b,
++							 material->color.a * cmd.tint.a);
+		shader.setVec4("uUVRect", cmd.uvRect.r, cmd.uvRect.g, cmd.uvRect.b, cmd.uvRect.a);
 
 		const bool wantTex = (material->useTexture && material->texture);
 		shader.setInt("uUseTex", wantTex ? 1 : 0);

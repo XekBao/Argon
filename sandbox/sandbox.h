@@ -18,6 +18,7 @@
 #include "renderer/render_pass2d.h"
 #include "renderer/render_frame2d.h"
 #include "renderer/imgui_pass2d.h"
+#include "renderer/texture_atlas.h"
 
 namespace argon {
 	class SandboxApp {
@@ -40,8 +41,10 @@ namespace argon {
 		std::unique_ptr<Mesh> m_quad;
 		std::unique_ptr<CameraController2D> m_camCtl;
 		std::unique_ptr<Texture2D> m_testTex;
+		std::unique_ptr<Texture2D> m_atlasTex;
 
 		std::vector<std::unique_ptr<Texture2D>> m_textures;
+
 		std::vector<MaterialHandle> m_matHandles;
 
 		Renderer m_renderer;
@@ -56,6 +59,7 @@ namespace argon {
 		RenderPipeline2D m_pipeline2d;
 		RenderFrame2D    m_frame2d;
 		RenderSystem2D m_renderSys;
+		TextureAtlas m_atlas;
 
 		double m_lastTime = 0.0;
 		double m_time = 0.0;
