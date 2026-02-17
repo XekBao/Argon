@@ -210,7 +210,9 @@ namespace argon {
 				e.renderable.mesh = m_quad.get();
 				int idx = (x + y * gridW) % numTextures;
 				e.renderable.material = m_matAtlas;
-				e.renderable.sprite = sprites[(x + y) % spriteCount];
+
+				const char* sprName = sprites[(x + y) % spriteCount];
+				e.renderable.spriteId = m_atlas.getId(sprName);
 
 				e.transform.x = startX + x * spacing;
 				e.transform.y = startY + y * spacing;

@@ -59,10 +59,9 @@ namespace argon {
 			pkt.layer = e.renderable.layer;
 			pkt.tint = e.renderable.tint;
 
-			if (!e.renderable.sprite.empty()) {
-				const TextureAtlas* atlas = renderer.atlas();
-				if (atlas) {
-					pkt.uvRect = atlas->getUVRect(e.renderable.sprite);
+			if (e.renderable.spriteId != 0) {
+				if (const TextureAtlas* atlas = renderer.atlas()) {
+					pkt.uvRect = atlas->uvRect(e.renderable.spriteId);
 				}
 			} else {
 				pkt.uvRect = e.renderable.uvRect;
