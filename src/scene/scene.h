@@ -7,12 +7,8 @@
 
 namespace argon{
 
-	class Renderer;
 	class MovementSystem;
 	class CameraSystem;
-	class RenderSystem2D;
-	class Camera2D;
-	class RenderFrame2D;
 
 	class Scene {
 	public:
@@ -32,6 +28,5 @@ namespace argon{
 	private:
 		std::unique_ptr<MovementSystem> m_moveSys;
 		std::unique_ptr<CameraSystem>	m_camSys;
-		std::unique_ptr<RenderSystem2D>	m_renderSys;
 	};
 }
