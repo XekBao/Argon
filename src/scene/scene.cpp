@@ -14,6 +14,17 @@ namespace argon {
 	void Scene::update(float dt, FrameContext& ctx)	{
 		m_moveSys->update(*this, ctx.window, ctx.input, dt);
 		m_camSys->update(ctx.camCtl, dt);
+
+		for (auto& e : entities) {
+			if (!e.renderable.visible) continue;
+
+			if (e.animator.clip) {
+				const std::uint32_t sid = e.animator.update(dt);
+				if (sid != 0) {
+					e.renderable.spriteId = sid;
+				}
+			}
+		}
 	}
 
 }

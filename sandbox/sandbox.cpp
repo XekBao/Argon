@@ -6,7 +6,7 @@
 #include "imgui.h"
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
-
+#include <string_view>
 
 namespace argon {
 	static const char* vsBasic = R"(
@@ -198,6 +198,19 @@ namespace argon {
 		std::cout << "atlas load ok=" << ok << "\n";
 		m_renderer.setAtlas(&m_atlas);
 
+		m_animHero.frames = {
+			m_atlas.getId("hero0"),
+			m_atlas.getId("hero1"),
+		};
+		m_animHero.fps = 6.0f;
+		m_animHero.loop = true;
+		m_animCoin.frames = {
+			m_atlas.getId("coin0"),
+			m_atlas.getId("coin1"),
+		};
+		m_animCoin.fps = 10.0f;
+		m_animCoin.loop = true;
+
 		const float spacing = 0.05f;
 		const float startX = -(gridW - 1) * spacing * 0.5f;
 		const float startY = -(gridH - 1) * spacing * 0.5f;
@@ -213,6 +226,13 @@ namespace argon {
 
 				const char* sprName = sprites[(x + y) % spriteCount];
 				e.renderable.spriteId = m_atlas.getId(sprName);
+
+				if (std::string_view(sprName).rfind("hero", 0) == 0) {
+					e.animator.play(&m_animHero, true);
+				}
+				if (std::string_view(sprName).rfind("coin", 0) == 0) {
+					e.animator.play(&m_animCoin, true);
+				}
 
 				e.transform.x = startX + x * spacing;
 				e.transform.y = startY + y * spacing;

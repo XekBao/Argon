@@ -60,6 +60,8 @@ namespace argon {
 		RenderFrame2D    m_frame2d;
 		RenderSystem2D m_renderSys;
 		TextureAtlas m_atlas;
+		AnimationClip2D m_animHero;
+		AnimationClip2D m_animCoin;
 
 		double m_lastTime = 0.0;
 		double m_time = 0.0;
